@@ -1,0 +1,50 @@
+name: Tests
+"on":
+  push:
+    branches:
+      - main
+  pull_request: {}
+  workflow_dispatch: {}
+  schedule:
+    - cron: "17 6 * * 1"
+permissions:
+  contents: read
+concurrency:
+  group: "tests-${{ github.ref }}"
+  cancel-in-progress: true
+jobs:
+  ci:
+    name: "Build & verify with Zuke"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Harden and check out with Zuke
+        uses: zuke-build/zuke@2478fa5a69fb4f16540e54959c98cd976ec3f075 # v1.0.5
+        with:
+          egress-policy: block
+          persist-credentials: "false"
+          allowed-endpoints: "deno.land:443 dl.deno.land:443 jsr.io:443 github.com:443 api.github.com:443 codeload.github.com:443 objects.githubusercontent.com:443 release-assets.githubusercontent.com:443"
+      - name: Run ci with Zuke
+        run: ./zuke ci
+  verifyFormula:
+    name: "Verify formula (${{ matrix.os }})"
+    runs-on: "${{ matrix.os }}"
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - macos-15-intel
+          - ubuntu-latest
+    steps:
+      - name: Harden and check out with Zuke
+        uses: zuke-build/zuke@2478fa5a69fb4f16540e54959c98cd976ec3f075 # v1.0.5
+        with:
+          egress-policy: audit
+          persist-credentials: "false"
+      - name: Put Homebrew on PATH
+        if: "runner.os == 'Linux'"
+        run: "echo \"/home/linuxbrew/.linuxbrew/bin\" >> \"$GITHUB_PATH\""
+      - name: Run verifyFormula with Zuke
+        run: ./zuke verifyFormula

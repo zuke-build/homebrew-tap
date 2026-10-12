@@ -1,0 +1,51 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@zuke/apple@1": "1.0.0",
+    "jsr:@zuke/core@1": "1.72.0",
+    "jsr:@zuke/core@^1.55.1": "1.72.0",
+    "jsr:@zuke/core@^1.66.0": "1.72.0",
+    "jsr:@zuke/core@^1.71.0": "1.72.0",
+    "jsr:@zuke/deno@1": "1.4.2",
+    "jsr:@zuke/gh@^1.14.0": "1.15.0",
+    "jsr:@zuke/homebrew@1": "1.0.0"
+  },
+  "jsr": {
+    "@zuke/apple@1.0.0": {
+      "integrity": "0027c3d504b6af768af7c2f723d0c28b868f02f7f77fc9fff5573b1961c97037",
+      "dependencies": [
+        "jsr:@zuke/core@^1.71.0"
+      ]
+    },
+    "@zuke/core@1.72.0": {
+      "integrity": "4540099af02281efc1b4b5cc93ae14dfc085cbaf20ed9e0c6c203747dd87d349"
+    },
+    "@zuke/deno@1.4.2": {
+      "integrity": "1a7d350397263708027c858a148a4bf081b44a16505a9adcc73b80570472b6dd",
+      "dependencies": [
+        "jsr:@zuke/core@^1.55.1"
+      ]
+    },
+    "@zuke/gh@1.15.0": {
+      "integrity": "c6b83372bca9326c4c97f57d517d7d3cc28af6be9f97b7cdf805c5673c51ea9a",
+      "dependencies": [
+        "jsr:@zuke/core@^1.66.0"
+      ]
+    },
+    "@zuke/homebrew@1.0.0": {
+      "integrity": "f4b526ea93ae4473fd1faa36817ad545a1de4a1c8d05decdd36a7eccbbeeaac4",
+      "dependencies": [
+        "jsr:@zuke/core@^1.71.0",
+        "jsr:@zuke/gh"
+      ]
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@zuke/apple@1",
+      "jsr:@zuke/core@1",
+      "jsr:@zuke/deno@1",
+      "jsr:@zuke/homebrew@1"
+    ]
+  }
+}

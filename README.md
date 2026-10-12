@@ -7,11 +7,10 @@ code-first, strongly-typed build automation system for Deno.
 brew install zuke-build/tap/zuke
 ```
 
-This installs the `zuke` command as a standalone, signed binary for macOS
-(Apple silicon and Intel) and Linux (arm64 and x86_64). It needs **no Deno up
-front**: `zuke setup` scaffolds a project right away, and the `./zuke` launcher
-it writes installs a pinned, checksum-verified Deno the first time the build
-runs.
+This installs the `zuke` command as a standalone, signed binary for macOS (Apple
+silicon and Intel) and Linux (arm64 and x86_64). It needs **no Deno up front**:
+`zuke setup` scaffolds a project right away, and the `./zuke` launcher it writes
+installs a pinned, checksum-verified Deno the first time the build runs.
 
 ```sh
 zuke setup        # scaffold zuke.ts and the ./zuke launcher
@@ -22,8 +21,8 @@ brew upgrade zuke # update
 
 Installing from JSR (`deno install -A -g -n zuke jsr:@zuke/cli`) remains the
 main route and gives the same CLI; see
-[installing](https://github.com/zuke-build/zuke/blob/master/docs/install.md)
-for both, side by side.
+[installing](https://github.com/zuke-build/zuke/blob/master/docs/install.md) for
+both, side by side.
 
 ## How this tap is maintained
 
@@ -40,20 +39,28 @@ pipeline that:
    with the real `brew` on macOS and Linux;
 5. only then commits the formula here.
 
-Like every Zuke repository, this tap is built with Zuke: its own `zuke.ts`
-(coming with zuke-build/zuke#792) installs and tests the formula on every change
-and weekly, and its CI workflow is generated from that build rather than written
-by hand.
+Like every Zuke repository, this tap is built with Zuke. Its own `zuke.ts`
+audits, installs and tests the formula with the real `brew` on macOS and Linux —
+and on macOS checks that the installed binary is Developer ID signed — on every
+pull request, every push to `main` and weekly. Its CI workflow,
+`.github/workflows/tests.yml`, is generated from that build rather than written
+by hand:
+
+```sh
+./zuke ci                   # format, lint, type-check, workflow drift
+./zuke verifyFormula        # audit, install and test the formula (needs brew)
+./zuke generate-ci          # regenerate the workflow after changing zuke.ts
+```
 
 A problem with the formula belongs in
-[zuke-build/zuke's issues](https://github.com/zuke-build/zuke/issues), where
-the generator lives.
+[zuke-build/zuke's issues](https://github.com/zuke-build/zuke/issues), where the
+generator lives.
 
 ## Verifying what you install
 
-Homebrew checks every archive against the SHA-256 the formula pins. Each
-archive is also attested by the release workflow, and the macOS binaries are
-Developer ID signed and notarized:
+Homebrew checks every archive against the SHA-256 the formula pins. Each archive
+is also attested by the release workflow, and the macOS binaries are Developer
+ID signed and notarized:
 
 ```sh
 gh attestation verify zuke-<version>-<target>.tar.gz \
