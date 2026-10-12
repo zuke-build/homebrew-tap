@@ -40,9 +40,10 @@ pipeline that:
    with the real `brew` on macOS and Linux;
 5. only then commits the formula here.
 
-The `tests` workflow in this repository installs and tests the formula again on
-every change and weekly, so a Homebrew change that breaks the install shows up
-without waiting for a release.
+Like every Zuke repository, this tap is built with Zuke: its own `zuke.ts`
+(coming with zuke-build/zuke#792) installs and tests the formula on every change
+and weekly, and its CI workflow is generated from that build rather than written
+by hand.
 
 A problem with the formula belongs in
 [zuke-build/zuke's issues](https://github.com/zuke-build/zuke/issues), where
