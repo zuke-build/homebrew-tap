@@ -1,0 +1,12 @@
+# Copyright (c) 2026 the Zuke contributors
+# SPDX-License-Identifier: MIT
+
+# The formula is generated in zuke-build/zuke, so problems are tracked there.
+blank_issues_enabled: false
+contact_links:
+  - name: Report a problem with zuke or its formula
+    url: https://github.com/zuke-build/zuke/issues/new/choose
+    about: The formula and the binaries are built in zuke-build/zuke; file it there.
+  - name: Report a security vulnerability
+    url: https://github.com/zuke-build/zuke/security/advisories/new
+    about: Privately, through zuke-build/zuke's vulnerability reporting.
