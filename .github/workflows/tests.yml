@@ -1,0 +1,67 @@
+# Copyright (c) 2026 the Zuke contributors
+# SPDX-License-Identifier: MIT
+
+# Installs and tests the formula with the real brew on macOS and Linux.
+#
+# The formula is generated and committed by zuke-build/zuke's release
+# workflow, which runs the same install and test before it publishes; this
+# workflow checks every change to the tap the same way, and re-checks weekly so
+# a Homebrew change that breaks the install is noticed without waiting for the
+# next release.
+name: tests
+"on":
+  push:
+    branches:
+      - main
+  pull_request: {}
+  schedule:
+    - cron: "23 4 * * 1"
+  workflow_dispatch: {}
+permissions: {}
+concurrency:
+  group: "tests-${{ github.ref }}"
+  cancel-in-progress: true
+jobs:
+  test:
+    name: "brew install and test (${{ matrix.os }})"
+    runs-on: "${{ matrix.os }}"
+    permissions:
+      contents: read
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+    steps:
+      - name: Harden the runner
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+      - name: Check out the tap
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: "false"
+      - name: Put Homebrew on PATH
+        if: "runner.os == 'Linux'"
+        run: echo "/home/linuxbrew/.linuxbrew/bin" >> "$GITHUB_PATH"
+      - name: Tap this checkout
+        run: brew tap zuke-build/tap "$GITHUB_WORKSPACE"
+      - name: Check every formula parses
+        run: brew readall --aliases zuke-build/tap
+      - name: Audit, install and test zuke
+        if: "hashFiles('Formula/zuke.rb') != ''"
+        run: |
+          brew audit --strict --online zuke-build/tap/zuke
+          brew install --formula zuke-build/tap/zuke
+          brew test zuke-build/tap/zuke
+          zuke --version
+      - name: Check the macOS binary's signature
+        if: "runner.os == 'macOS' && hashFiles('Formula/zuke.rb') != ''"
+        run: |
+          binary="$(brew --prefix)/bin/zuke"
+          codesign --verify --strict --verbose=2 "$binary"
+          codesign --display --verbose=4 "$binary" 2>&1 | grep '^Authority=Developer ID Application:'
