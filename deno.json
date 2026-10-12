@@ -1,0 +1,19 @@
+{
+  "imports": {
+    "@zuke/apple": "jsr:@zuke/apple@^1",
+    "@zuke/core": "jsr:@zuke/core@^1",
+    "@zuke/deno": "jsr:@zuke/deno@^1",
+    "@zuke/homebrew": "jsr:@zuke/homebrew@^1"
+  },
+  "tasks": {
+    "zuke": "deno run -A --frozen zuke.ts",
+    "fmt": "deno fmt",
+    "lint": "deno lint"
+  },
+  "fmt": {
+    "include": ["zuke.ts", "build/", ".github/", "*.md"]
+  },
+  "lint": {
+    "include": ["zuke.ts", "build/"]
+  }
+}
