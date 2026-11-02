@@ -12,7 +12,9 @@
  *
  * 1. `brew tap-new --no-git zuke-verify/tap-<random>` — current Homebrew only
  *    installs formulae that live in a tap, so the formula is copied into a
- *    throwaway one rather than installed by path
+ *    throwaway one rather than installed by path — then `brew trust --tap`
+ *    on it, since current Homebrew loads a non-official tap's formulae only
+ *    once the tap is trusted
  * 2. `brew audit --strict --formula <tap>/<name>`
  * 3. `brew install --formula <tap>/<name>`, then `brew test <tap>/<name>`
  * 4. on macOS: `codesign --verify --strict` and `codesign --display` on the
@@ -101,6 +103,11 @@ export async function verifyFormula(name: string): Promise<void> {
   const qualified = `${tap}/${name}`;
 
   await BrewTasks.tapNew((s) => brew(s).name(tap).noGit());
+  // Current Homebrew loads a formula from a non-official tap only once the tap
+  // is trusted. An older brew has no `trust` command and needs none, so its
+  // refusal is let pass; on a newer one an untrusted tap still fails the audit
+  // by name.
+  await BrewTasks.run((s) => brew(s).noThrow().command("trust", "--tap", tap));
   let installed = false;
   await runAll([
     async () => {
