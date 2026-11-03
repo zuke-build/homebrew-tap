@@ -5,25 +5,25 @@ class Zuke < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/zuke-build/zuke/releases/download/cli-v2.1.1/zuke-2.1.1-aarch64-apple-darwin.tar.gz"
-      sha256 "7d99bc0ebe83e0e8e9947523928046775630431c7bc630161e6a7094493e35c4"
+      url "https://github.com/zuke-build/zuke/releases/download/cli-v2.2.0/zuke-2.2.0-aarch64-apple-darwin.tar.gz"
+      sha256 "38bfd4f507de8c8b6193eb392563e29bd07680742bf981dd82d1e8fd04c1a8eb"
     end
 
     on_intel do
-      url "https://github.com/zuke-build/zuke/releases/download/cli-v2.1.1/zuke-2.1.1-x86_64-apple-darwin.tar.gz"
-      sha256 "a58fe08f4224876e435ef733464d214295c0c3bee52d500a71f9dab44ffc7f7e"
+      url "https://github.com/zuke-build/zuke/releases/download/cli-v2.2.0/zuke-2.2.0-x86_64-apple-darwin.tar.gz"
+      sha256 "7302e0d696d669bd1db28c6e4759f20c8e8f2da4a6967088658ec311828e2cbb"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/zuke-build/zuke/releases/download/cli-v2.1.1/zuke-2.1.1-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "58c18052c2f3af7a4cc00e072360c942396b2e1bae92dabb5a2b17ad4a7b2d8c"
+      url "https://github.com/zuke-build/zuke/releases/download/cli-v2.2.0/zuke-2.2.0-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "0673f04f6e85f3850a26c6d755232431eb4b69ea680d0b6c1f4098e9ccff9c56"
     end
 
     on_intel do
-      url "https://github.com/zuke-build/zuke/releases/download/cli-v2.1.1/zuke-2.1.1-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "4a2a3a89948fae5eb5f294523fcd2a35b1765a639e7202561ddd098bfb5b94c6"
+      url "https://github.com/zuke-build/zuke/releases/download/cli-v2.2.0/zuke-2.2.0-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "1557428e406bdf7d027b2a02c3f00947620f72a280829109a8653a3fae5533fe"
     end
   end
 
